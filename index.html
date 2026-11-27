@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hidden Store – E-Commerce Website</title>
+<style>
+:root{--blue:#c1121f;--dark:#7a1019;--bg:#fff6e6;--card:#fffdf8;--fg:#2b1a14;--mute:#7c6a5e;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+button,input{font:inherit}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid #e63946;outline-offset:2px}
+.top{background:var(--blue);color:#fff;display:flex;align-items:center;gap:18px;padding:10px 20px;flex-wrap:wrap}
+.logo{font-size:22px;font-weight:700}
+.top nav{display:flex;gap:16px;flex:1;align-items:center;flex-wrap:wrap}
+.top nav a,.cartb{color:#fff;font-size:14px;background:none;border:0;cursor:pointer}
+.top nav a:hover{text-decoration:underline}
+.sr{display:flex;gap:6px;margin-left:auto}.sr input{padding:7px 10px;border:0;border-radius:4px;width:190px;max-width:100%}
+.sr button,.btn{background:var(--blue);color:#fff;border:0;border-radius:4px;padding:8px 14px;cursor:pointer}
+.sr button{background:#8f0d18}
+.btn:hover{filter:brightness(.92)}.btn.g{background:#6b7280}.btn.o{background:#7a1019}
+.welcome{background:var(--dark);color:#fff;font-size:13px;padding:8px 20px;display:flex;gap:14px;align-items:center}
+.welcome button{background:none;border:0;color:#ffe8d0;cursor:pointer;text-decoration:underline}
+.head{text-align:center;padding:16px 12px 6px}.head h1{font-size:26px}.head p{font-size:13px;color:var(--mute)}
+.layout{display:grid;grid-template-columns:1fr 190px;gap:14px;max-width:1150px;margin:0 auto;padding:8px 14px 24px;align-items:start}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-content:start}
+.card{background:#fff;border:1px solid #eadfcd;border-radius:4px;padding:12px;display:flex;flex-direction:column;text-align:left}
+.img{font-size:72px;text-align:center;line-height:1.3;height:105px}
+.card h3{font-size:14px;margin-top:10px}.card p{font-size:11px;color:var(--mute);flex:1;margin:4px 0}
+.price{font-size:12px;margin:6px 0 10px}.row{display:flex;gap:6px}
+.row .btn{font-size:11px;padding:7px 10px;border-radius:3px}
+.side h2{background:var(--blue);color:#fff;font-size:15px;text-align:center;padding:9px;font-weight:600}
+.side ul{list-style:none;background:var(--dark);margin-bottom:0}
+.side li button{width:100%;background:none;border:0;color:#fff;font-size:12px;padding:8px 4px;cursor:pointer}
+.side li button:hover,.side li button.on{background:#e63946}
+.none{grid-column:1/-1;text-align:center;color:var(--mute);padding:30px}
+.ov{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.ov.show{display:flex}
+.box{background:#fffdf8;border-radius:8px;padding:22px;width:100%;max-width:420px;max-height:90vh;overflow:auto}
+.box h2{margin-bottom:10px}.box input{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:4px}
+.ci{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #eee;font-size:14px}
+.ci .n{flex:1}.ci button{width:26px;height:26px;border:1px solid #ccc;background:#fff;border-radius:4px;cursor:pointer}
+.tot{font-weight:700;text-align:right;margin:12px 0}
+#msg{margin-top:8px;font-size:13px;color:#dc2626}
+.contact{background:#fffdf8;max-width:1150px;margin:0 auto 20px;padding:20px;border-radius:6px;text-align:center}
+footer{background:var(--dark);color:#fff;text-align:center;padding:12px;font-size:12px}
+footer a{text-decoration:underline}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.layout{grid-template-columns:1fr 112px;gap:8px;padding:8px}.grid{grid-template-columns:1fr}.side li button{font-size:11px}.top{gap:8px;padding:8px 10px}.top nav{gap:10px}.sr input{width:120px}.head h1{font-size:22px}}
+</style>
+</head>
+<body>
+<header class="top">
+<span class="logo">&#128722; Hidden Store</span>
+<nav><a href="#home">Home</a><a href="#home">Products</a><a href="#" id="reg">Register</a><a href="#" id="ct">Contact</a>
+<button class="cartb" id="cb">&#128722; Total Price: <span id="tp">0</span>/-</button></nav>
+<form class="sr" id="sf"><input id="q" placeholder="Search" aria-label="Search products"><button type="submit">search</button></form>
+</header>
+<div class="welcome"><span id="wl">Welcome Guest</span><button id="lg">Login</button></div>
+<div class="head" id="home"><h1>Hidden Store</h1><p>Communications is at the heart of e-commerce and community</p></div>
+
+<div class="layout">
+<main><div class="grid" id="grid"></div></main>
+<aside class="side">
+<h2>Delivery Brands</h2><ul id="brands"></ul>
+<h2>Categories</h2><ul id="cats"></ul>
+</aside>
+</div>
+
+<footer>&copy; 2026 Hidden Store &middot; Built by <b>VETRIVEL.A</b>, CSE, Sri Shakthi Institute of Engineering and Technology</footer>
+
+<div class="ov" id="o1"><div class="box" id="b1"></div></div>
+
+<script>
+(function(){
+var P=[
+["Books","&#128214;","Books play a quintessential role in every student's life by introducing them to a world.",300,"Books","Amazon"],
+["Fresh Juices","&#129380;","Juices are good for health. Fresh and full of vitamins.",100,"Juices","Zomato"],
+["Fresh Mango","&#129389;","Mangoes are always tasty. Eat once and you will ask for more.",500,"Fruits","Flipkart"],
+["Milk Pack","&#129371;","Pure farm milk delivered fresh every morning.",60,"Milk products","Alahabadi"],
+["Cheese","&#129472;","Creamy cheese made from fresh milk, great for snacks.",250,"Milk products","Mc Donalds"],
+["T-Shirt","&#128085;","Soft cotton t-shirt for everyday comfort.",450,"Clothes","Nike"],
+["Sports Shoes","&#128095;","Lightweight running shoes with strong grip.",1800,"Clothes","Adidas"],
+["Headphones","&#127911;","Wireless headphones with deep bass and long battery.",1200,"Electronics","Amazon"],
+["Smart Watch","&#8986;","Track steps, sleep and notifications on your wrist.",2200,"Electronics","Flipkart"],
+["Orange Juice","&#127818;","Cold pressed orange juice with no added sugar.",120,"Juices","Zomato"],
+["Apples","&#127822;","Crisp red apples, sweet and juicy.",180,"Fruits","Alahabadi"],
+["Notebook Set","&#128211;","Pack of 5 ruled notebooks for college and school.",150,"Books","Amazon"],
+["Strawberries","&#127827;","Fresh red strawberries, sweet and perfect with cream.",220,"Fruits","Zomato"],
+["Red Velvet Cake","&#127856;","Soft red velvet cake with white cream cheese frosting.",650,"Bakery","Mc Donalds"],
+["Cream Cake","&#127874;","Vanilla sponge cake layered with fresh white cream.",550,"Bakery","Alahabadi"],
+["Ice Cream","&#127846;","Creamy white vanilla ice cream, served cold.",90,"Milk products","Zomato"],
+["Whipped Cream","&#127854;","Fresh white whipped cream for desserts and coffee.",140,"Milk products","Alahabadi"],
+["Red Tomatoes","&#127813;","Juicy red tomatoes picked fresh every day.",40,"Fruits","Flipkart"],
+["Red Hoodie","&#129509;","Warm red hoodie with a soft cream lining.",1100,"Clothes","Nike"]];
+var brands=["All","Mc Donalds","Zomato","Alahabadi","Nike","Adidas","Amazon","Flipkart"];
+var cats=["All","Juices","Milk products","Bakery","Books","Fruits","Clothes","Electronics"];
+var cat="All",brand="All",term="",cart={},user=null;
+try{cart=JSON.parse(localStorage.getItem("hs_cart"))||{};user=localStorage.getItem("hs_user");}catch(e){}
+var $=function(i){return document.getElementById(i)};
+function el(t,c,x){var n=document.createElement(t);if(c)n.className=c;if(x!=null)n.textContent=x;return n;}
+function b(label,c,fn){var n=el("button",c,label);n.type="button";n.onclick=fn;return n;}
+function save(){try{localStorage.setItem("hs_cart",JSON.stringify(cart));}catch(e){}}
+function menu(id,list,cur,set){var u=$(id);u.textContent="";list.forEach(function(x){var li=el("li");var bt=b(x,x===cur?"on":"",function(){set(x);draw();});li.appendChild(bt);u.appendChild(li);});}
+function total(){return P.reduce(function(s,p,i){return s+(cart[i]||0)*p[3];},0);}
+function draw(){
+menu("cats",cats,cat,function(x){cat=x;});menu("brands",brands,brand,function(x){brand=x;});
+var g=$("grid");g.textContent="";var n=0;
+P.forEach(function(p,i){
+if((cat!=="All"&&p[4]!==cat)||(brand!=="All"&&p[5]!==brand)||(term&&p[0].toLowerCase().indexOf(term)<0))return;n++;
+var c=el("div","card"),im=el("div","img");im.innerHTML=p[1];im.setAttribute("aria-hidden","true");
+c.appendChild(im);c.appendChild(el("h3","",p[0]));c.appendChild(el("p","",p[2]));c.appendChild(el("div","price","Price: "+p[3]+" /-"));
+var r=el("div","row");r.appendChild(b("Add to cart","btn",function(){cart[i]=(cart[i]||0)+1;save();draw();}));r.appendChild(b("View more","btn g",function(){view(i);}));
+c.appendChild(r);g.appendChild(c);});
+if(!n)g.appendChild(el("div","none","No products found."));
+$("tp").textContent=total();$("wl").textContent="Welcome "+(user||"Guest");$("lg").textContent=user?"Logout":"Login";
+}
+function open(node){var x=$("b1");x.textContent="";x.appendChild(node);$("o1").classList.add("show");}
+function close(){$("o1").classList.remove("show");}
+$("o1").onclick=function(e){if(e.target===this)close();};
+document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});
+function view(i){var p=P[i],d=el("div");var im=el("div","img");im.innerHTML=p[1];d.appendChild(im);d.appendChild(el("h2","",p[0]));d.appendChild(el("p","",p[2]));
+d.appendChild(el("p","","Category: "+p[4]+" | Brand: "+p[5]));d.appendChild(el("div","price","Price: "+p[3]+" /-"));
+var r=el("div","row");r.appendChild(b("Add to cart","btn",function(){cart[i]=(cart[i]||0)+1;save();draw();close();}));r.appendChild(b("Close","btn g",close));d.appendChild(r);open(d);}
+function showCart(){
+var d=el("div");d.appendChild(el("h2","","Your Cart"));var ks=Object.keys(cart).filter(function(k){return cart[k]>0;});
+if(!ks.length)d.appendChild(el("p","","Your cart is empty."));
+ks.forEach(function(k){var p=P[k],row=el("div","ci");row.appendChild(el("span","",p[0]));row.lastChild.className="n";row.firstChild.textContent=p[0]+" ("+p[3]+")";
+row.appendChild(b("-","",function(){cart[k]--;save();draw();showCart();}));row.appendChild(el("span","",cart[k]));row.appendChild(b("+","",function(){cart[k]++;save();draw();showCart();}));d.appendChild(row);});
+d.appendChild(el("div","tot","Total: "+total()+" /-"));
+var r=el("div","row");if(ks.length){r.appendChild(b("Checkout","btn o",function(){cart={};save();draw();var m=el("div");m.appendChild(el("h2","","Order placed!"));m.appendChild(el("p","","Thank you for shopping at Hidden Store."));m.appendChild(b("OK","btn",close));open(m);}));}
+r.appendChild(b("Close","btn g",close));d.appendChild(r);open(d);}
+function auth(reg){
+var d=el("form");d.appendChild(el("h2","",reg?"Register":"Login"));
+var u=el("input");u.placeholder="Your name";u.setAttribute("aria-label","Name");u.required=true;d.appendChild(u);
+var pw=el("input");pw.type="password";pw.placeholder="Password";pw.setAttribute("aria-label","Password");pw.required=true;pw.minLength=4;d.appendChild(pw);
+var s=el("button","btn",reg?"Register":"Login");s.type="submit";d.appendChild(s);d.appendChild(document.createTextNode(" "));d.appendChild(b("Cancel","btn g",close));
+var m=el("p");m.id="msg";d.appendChild(m);
+d.onsubmit=function(e){e.preventDefault();user=u.value.trim();try{localStorage.setItem("hs_user",user);}catch(x){}close();draw();};open(d);u.focus();}
+function contact(){var d=el("div");d.appendChild(el("h2","","Contact"));d.appendChild(el("p","","Questions about an order? Reach us any time."));
+var p=el("p");var m=el("a","","avvel07@gmail.com");m.href="mailto:avvel07@gmail.com";p.appendChild(m);d.appendChild(p);
+var q=el("p");var t=el("a","","6374777078");t.href="tel:+916374777078";q.appendChild(t);d.appendChild(q);d.appendChild(b("Close","btn g",close));open(d);}
+$("ct").onclick=function(e){e.preventDefault();contact();};
+$("cb").onclick=showCart;$("reg").onclick=function(e){e.preventDefault();auth(true);};
+$("lg").onclick=function(){if(user){user=null;try{localStorage.removeItem("hs_user");}catch(e){}draw();}else auth(false);};
+$("sf").onsubmit=function(e){e.preventDefault();term=$("q").value.trim().toLowerCase();draw();};
+$("q").oninput=function(){term=this.value.trim().toLowerCase();draw();};
+draw();
+})();
+</script>
+</body>
+</html>
